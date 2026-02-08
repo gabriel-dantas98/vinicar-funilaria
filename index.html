@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ViniCar Funilaria">
+    <meta property="og:description" content="ViniCar Funilaria">
+    <meta property="og:image" content="http://localhost:5000/api/og/5">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="ViniCar Funilaria">
+    <meta property="twitter:description" content="ViniCar Funilaria">
+
+    <meta property="twitter:image" content="http://localhost:5000/api/og/5">
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.png" />
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VINICAR | Estética Automotiva, Funilaria e Pintura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #AA8A2E;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #ffffff; scroll-behavior: smooth; overflow-x: hidden; }
+        
+        .bg-gold { background-color: var(--gold); }
+        .text-gold { color: var(--gold); }
+        .border-gold { border-color: var(--gold); }
+
+        /* Estilo Parallax */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* Efeitos de Revelação Sutil */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Delay Stagger para listas */
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Galeria Estilo Premium */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+        .gallery-item:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+            z-index: 10;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* Botão Estilo Ferrari */
+        .btn-premium {
+            background-color: var(--gold);
+            color: #000;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+        .btn-premium:hover {
+            background-color: #fff;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.25);
+        }
+
+        .faq-answer { max-height: 0; overflow: hidden; transition: all 0.5s ease; }
+        .faq-item.active .faq-answer { max-height: 300px; padding-bottom: 1.5rem; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); color: var(--gold); }
+
+        .logo-img { height: 48px; width: auto; object-fit: contain; }
+        
+        .google-maps-container iframe {
+            filter: grayscale(1) invert(0.9) contrast(1.1);
+        }
+
+        /* Cartão de Depoimento */
+        .testimonial-card {
+            background: #0d0d0d;
+            border-left: 2px solid var(--gold);
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+        }
+        .testimonial-card:hover {
+            background: #151515;
+            border-left-width: 6px;
+        }
+
+        /* Botão Flutuante WhatsApp Temático */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 99;
+            width: 64px;
+            height: 64px;
+            background-color: #000;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1) translateY(-5px);
+            background-color: var(--gold);
+            color: #000;
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+        }
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+        }
+        .pulse-gold {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            animation: pulse-animation 2s infinite;
+            pointer-events: none;
+        }
+        @keyframes pulse-animation {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://api.whatsapp.com/send?phone=%2B5511967350983" class="whatsapp-float" target="_blank" aria-label="Contacto WhatsApp">
+        <div class="pulse-gold"></div>
+        <svg viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Navegação Superior -->
+    <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex justify-between items-center h-24">
+                <div class="flex items-center gap-4">
+                    <img src="https://lh3.googleusercontent.com/a-/ALV-UjWOJtBfXoCMD8oDSOuBXyjTZF8C4QxbyjywzLEaB_yb65rZ7XM=w144-h144-p-rp-mo-br100" 
+                         alt="Logo VINICAR" 
+                         class="logo-img rounded-md">
+                    <span class="text-xl font-black tracking-tighter text-white uppercase">VINI<span class="text-gold">CAR</span></span>
+                </div>
+                <div class="hidden lg:flex space-x-8 items-center">
+                    <a href="#servicos" class="text-[10px] font-bold uppercase tracking-widest hover:text-gold transition-colors">Serviços</a>
+                    <a href="#galeria" class="text-[10px] font-bold uppercase tracking-widest hover:text-gold transition-colors">Galeria</a>
+                    <a href="#diferenciais" class="text-[10px] font-bold uppercase tracking-widest hover:text-gold transition-colors">Diferenciais</a>
+                    <a href="#depoimentos" class="text-[10px] font-bold uppercase tracking-widest hover:text-gold transition-colors">Avaliações</a>
+                    <a href="https://api.whatsapp.com/send?phone=%2B5511967350983" class="btn-premium px-6 py-3 text-[10px] rounded-sm">
+                        Orçamento
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden parallax" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1592193660027-5831f589049e?auto=format&fit=crop&q=100&w=1920');">
+        <div class="relative z-10 text-center px-4 max-w-5xl reveal active">
+            <h1 class="text-4xl lg:text-7xl font-black uppercase tracking-tighter leading-none mb-6">
+                Estética Automotiva <br> <span class="text-gold tracking-widest">VINICAR</span>
+            </h1>
+            <p class="text-lg lg:text-2xl font-light text-gray-300 mb-10 tracking-wide max-w-3xl mx-auto">
+                Especialistas em Funilaria, Pintura, Polimento e Cristalização. <br>
+                Onde a precisão técnica encontra a perfeição estética.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="https://api.whatsapp.com/send?phone=%2B5511967350983" class="btn-premium px-10 py-5 text-sm rounded-sm">
+                    Solicitar Orçamento no WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 14l-7 7-7-7m14-8l-7 7-7-7"></path></svg>
+        </div>
+    </section>
+
+    <!-- Serviços de Estética -->
+    <section id="servicos" class="py-32 bg-[#0a0a0a]">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="reveal">
+                <h2 class="text-gold text-sm font-bold uppercase tracking-[0.4em] mb-4">Especialidades</h2>
+                <p class="text-4xl lg:text-6xl font-black uppercase mb-20">Tratamento de Elite</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-10 border border-white/5 bg-[#111] reveal reveal-delay-1">
+                    <h3 class="text-gold text-xl font-bold uppercase mb-4">Funilaria</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">Recuperação estrutural meticulosa com foco total na originalidade da lataria.</p>
+                </div>
+                <div class="p-10 border border-white/5 bg-[#111] reveal reveal-delay-2">
+                    <h3 class="text-gold text-xl font-bold uppercase mb-4">Pintura</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">Padrão de fábrica com colorimetria avançada e acabamento espelhado.</p>
+                </div>
+                <div class="p-10 border border-white/5 bg-[#111] reveal reveal-delay-3">
+                    <h3 class="text-gold text-xl font-bold uppercase mb-4">Polimento</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">Remoção técnica de imperfeições para restaurar o brilho profundo original.</p>
+                </div>
+                <div class="p-10 border border-white/5 bg-[#111] reveal reveal-delay-4">
+                    <h3 class="text-gold text-xl font-bold uppercase mb-4">Cristalização</h3>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">Proteção selante de longa duração que intensifica a profundidade da cor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria -->
+    <section id="galeria" class="py-32 bg-black border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-gold text-sm font-bold uppercase tracking-[0.4em] mb-4">Nossos trabalhos</h2>
+                <p class="text-4xl lg:text-6xl font-black uppercase">Qualidade & Eficiência</p>
+                <div class="h-1 w-24 bg-gold mx-auto mt-8"></div>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- Imagem 1 -->
+                <div class="gallery-item group reveal reveal-delay-1">
+                    <img src="https://images.pexels.com/photos/13437181/pexels-photo-13437181.jpeg" alt="[Imagem de Mercedes Clássico]">
+                    <div class="gallery-overlay">
+                        <div>
+                            <p class="text-gold text-xs font-bold uppercase tracking-widest mb-1">Restauração</p>
+                            <p class="text-xl font-bold uppercase">Mercedes Vintage</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Imagem 2 -->
+                <div class="gallery-item group reveal reveal-delay-2">
+                    <img src="https://images.pexels.com/photos/27849359/pexels-photo-27849359.jpeg" alt="[Imagem de Carro Amarelo]">
+                    <div class="gallery-overlay">
+                        <div>
+                            <p class="text-gold text-xs font-bold uppercase tracking-widest mb-1">Estética</p>
+                            <p class="text-xl font-bold uppercase">Cor Vibrante</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Imagem 3 -->
+                <div class="gallery-item group reveal reveal-delay-3">
+                    <img src="https://images.pexels.com/photos/33986791/pexels-photo-33986791.jpeg" alt="[Imagem de Carro Clássico]">
+                    <div class="gallery-overlay">
+                        <div>
+                            <p class="text-gold text-xs font-bold uppercase tracking-widest mb-1">Polimento</p>
+                            <p class="text-xl font-bold uppercase">Brilho Absoluto</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Imagem 4 -->
+                <div class="gallery-item group reveal reveal-delay-1">
+                    <img src="https://images.pexels.com/photos/13437178/pexels-photo-13437178.jpeg" alt="[Imagem de Traseira Mercedes]">
+                    <div class="gallery-overlay">
+                        <div>
+                            <p class="text-gold text-xs font-bold uppercase tracking-widest mb-1">Pintura</p>
+                            <p class="text-xl font-bold uppercase">Acabamento Elite</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Imagem 5 -->
+                <div class="gallery-item group reveal reveal-delay-2">
+                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=800" alt="[Imagem de Carro Premium]">
+                    <div class="gallery-overlay">
+                        <div>
+                            <p class="text-gold text-xs font-bold uppercase tracking-widest mb-1">Performance</p>
+                            <p class="text-xl font-bold uppercase">Estética Avançada</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Imagem 6 -->
+                <div class="gallery-item group reveal reveal-delay-3">
+                    <img src="https://images.pexels.com/photos/14810449/pexels-photo-14810449.jpeg" alt="[Imagem de Gaz 21]">
+                    <div class="gallery-overlay">
+                        <div>
+                            <p class="text-gold text-xs font-bold uppercase tracking-widest mb-1">Restauração</p>
+                            <p class="text-xl font-bold uppercase">Projeto Especial</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 text-center reveal">
+                <a href="https://api.whatsapp.com/send?phone=%2B5511967350983" class="btn-premium px-12 py-5 rounded-sm inline-block">
+                    Quero este resultado no meu carro
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferenciais -->
+    <section id="diferenciais" class="py-32 bg-[#0a0a0a]">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="reveal">
+                <h2 class="text-gold text-sm font-bold uppercase tracking-[0.4em] mb-4">Excelência</h2>
+                <p class="text-4xl lg:text-6xl font-black uppercase mb-20">Nossos Diferenciais</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="space-y-6 reveal reveal-delay-1">
+                    <div class="w-20 h-20 mx-auto border border-gold flex items-center justify-center rounded-full text-gold">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase italic">Qualidade & Detalhe</h3>
+                    <p class="text-gray-400 font-light text-sm leading-relaxed">A perfeição mora nos detalhes. Cada vinco e cada reflexo é tratado como prioridade absoluta pela nossa equipe especializada.</p>
+                </div>
+                <div class="space-y-6 reveal reveal-delay-2">
+                    <div class="w-20 h-20 mx-auto border border-gold flex items-center justify-center rounded-full text-gold">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase italic">Atendimento</h3>
+                    <p class="text-gray-400 font-light text-sm leading-relaxed">Transparência total em cada etapa. Orçamentos honestos e acompanhamento em tempo real via WhatsApp com envio de fotos.</p>
+                </div>
+                <div class="space-y-6 reveal reveal-delay-3">
+                    <div class="w-20 h-20 mx-auto border border-gold flex items-center justify-center rounded-full text-gold">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase italic">Prazo</h3>
+                    <p class="text-gray-400 font-light text-sm leading-relaxed">Respeitamos seu tempo e sua rotina. Entrega rigorosa no dia combinado com o veículo completamente higienizado e impecável.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section id="depoimentos" class="py-32 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-gold text-sm font-bold uppercase tracking-[0.4em] mb-4">Experiência do Cliente</h2>
+                <p class="text-4xl lg:text-6xl font-black uppercase">Quem confia indica</p>
+                <div class="h-1 w-24 bg-gold mx-auto mt-8"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <div class="text-gold mb-4 flex gap-1"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    <p class="text-gray-300 text-sm italic mb-8 leading-relaxed font-light">"Nota 10! Atendimento de excelência, serviço de ótima qualidade e preço justo. Parabéns pela dedicação da equipe..."</p>
+                    <p class="font-bold text-white uppercase text-xs tracking-widest">Eliane Benites</p>
+                    <p class="text-gray-600 text-[10px] mt-2 tracking-widest">3 meses atrás</p>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <div class="text-gold mb-4 flex gap-1"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    <p class="text-gray-300 text-sm italic mb-8 leading-relaxed font-light">"Vini Car… oficina séria e familiar… onde cada detalhe da montagem e da pintura é tratado com perfeição."</p>
+                    <p class="font-bold text-white uppercase text-xs tracking-widest">Vitor Nascimento</p>
+                    <p class="text-gray-600 text-[10px] mt-2 tracking-widest">8 meses atrás</p>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-3">
+                    <div class="text-gold mb-4 flex gap-1"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    <p class="text-gray-300 text-sm italic mb-8 leading-relaxed font-light">"Serviço excelente! O carro ficou impecável. Recomendo 100%! Atenção total aos pedidos do cliente."</p>
+                    <p class="font-bold text-white uppercase text-xs tracking-widest">Natan Viana</p>
+                    <p class="text-gray-600 text-[10px] mt-2 tracking-widest">4 meses atrás</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Onde Estamos -->
+    <section id="localizacao" class="w-full bg-black border-t border-gold google-maps-container reveal">
+        <div class="w-full h-[450px]">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d457.1873466692425!2d-46.8988820504013!3d-23.550523500000008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cf019b5715b515%3A0x8dd3feadacee3eab!2sVINICAR%20Funilaria%20e%20Pintura!5e0!3m2!1spt-BR!2sbr!4v1770249184750!5m2!1spt-BR!2sbr" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="reveal">
+                <h2 class="text-3xl lg:text-6xl font-black uppercase mb-10 leading-tight">Revitalize seu carro com a <br> <span class="text-gold tracking-tighter uppercase">VINI<span class="text-white">CAR</span></span></h2>
+                <a href="https://api.whatsapp.com/send?phone=%2B5511967350983" class="btn-premium px-12 py-6 text-lg rounded-sm inline-block">Mandar fotos para Orçamento</a>
+            </div>
+            
+            <div class="mt-32 grid md:grid-cols-3 gap-16 text-left border-t border-white/5 pt-16 reveal">
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-3">
+                        <img src="https://lh3.googleusercontent.com/a-/ALV-UjWOJtBfXoCMD8oDSOuBXyjTZF8C4QxbyjywzLEaB_yb65rZ7XM=w144-h144-p-rp-mo-br100" 
+                             alt="Logo VINICAR" class="h-12 w-auto rounded-sm">
+                        <span class="text-white font-black text-xl uppercase block tracking-tighter">VINI<span class="text-gold">CAR</span></span>
+                    </div>
+                    <p class="text-gray-500 text-xs font-light leading-relaxed">Referência em estética automotiva avançada, funilaria de alto padrão e detalhamento técnico em Jandira e região.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.facebook.com/vinisantosnasciment02021br/" target="_blank" class="text-gray-400 hover:text-gold transition-colors">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold uppercase text-[10px] tracking-[0.3em] mb-8">Localização</h4>
+                    <p class="text-gray-500 text-sm font-light leading-relaxed">R. Antonio Gomes dos Santos, 56<br>Parque dos Lagos, Jandira - SP<br>CEP: 06622-445</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold uppercase text-[10px] tracking-[0.3em] mb-8">Horários</h4>
+                    <p class="text-gray-500 text-sm font-light">Seg - Sex: 08:00 - 18:00<br>Sáb: 08:00 - 12:00</p>
+                </div>
+            </div>
+            <div class="mt-20 text-[9px] text-gray-700 uppercase tracking-[0.4em]">
+                © 2026 VINICAR Estética Automotiva. Qualidade e Perfeição.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Lógica de Scroll Reveal com Intersection Observer
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) element.classList.add('active');
+        }
+    </script>
+</body>
+</html>
